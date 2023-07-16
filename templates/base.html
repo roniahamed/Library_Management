@@ -57,7 +57,7 @@
             class="d-flex"
             role="search"
             action="{% url 'book_search' %}"
-            method="get"
+            method="get" validation
           >
             {% csrf_token %}
             <input
@@ -67,7 +67,7 @@
               placeholder="Search"
               aria-label="Search"
               value="{{request.GET.keyword}}"
-            />
+             required/>
             <button class="btn btn-outline-success" type="submit">
               Search
             </button>
