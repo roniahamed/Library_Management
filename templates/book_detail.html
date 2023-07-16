@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Book details{% endblock title %}
+{% block content %}
+{% for message in messages %} {% if 'success' in message.tags %} 
+<div
+  class="alert alert-success mb-0 alert-dismissible alert-absolute fade show"
+  id="alertExample"
+  role="alert"
+  data-mdb-color="secondary"
+  style="width: 20%; margin: auto; position: relative;"
+>
+  {{message}}
+  <button
+    type="button"
+    class="btn-close ms-2"
+    data-mdb-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<br>
+{% endif %} {% endfor %}
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Book Name</th>
+        <th scope="col">Author Name</th>
+        <th scope="col">ISBN</th>
+        <th scope="col">Category</th>
+        <th scope="col">First Publication</th>
+        <th scope="col">Available Status</th>
+        <th scope="col">Action</th> 
+        <th scope="col">Wishlist</th> 
+        <th scope="col">Borrowing  Book</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{book_detail.title}}</td>
+        <td>{{book_detail.author}}</td>
+        <td>{{book_detail.ISBN}}</td>
+        <td>{{book_detail.genre}}</td>
+        <td>{{book_detail.publication_date}}</td>
+        {% if book_detail.availability %}
+        <td>{{book_detail.availability}}</td>
+        {% else %}
+        <td style="color:red;">Out of Book</td>
+        {% endif %}
+        <td>
+          <a href="{% url 'edit_book' pk=book_detail.id %}" class="btn btn-warning btn-sm"
+            >Edit</a
+          >
+          <!-- Button trigger modal -->
+<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Delete
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body"style="color:green;">
+        <h2 >Are You Confirm "{{book_detail.title}}" book Deleted</h2>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="{% url 'book_delete' pk=book_detail.id %}"><button type="button" class="btn btn-primary" >Confirm</button> </a>
+      </div>
+    </div>
+  </div>
+</div>
+        </td> 
+        <td><a href="{% url 'add_wishlist' pk=book_detail.id%}"><span
+          id="boot-icon"
+          class="bi bi-heart-fill"
+          style="
+            font-size: 20px;
+            color: rgb(0, 0, 0);
+            opacity: 0.7;
+            -webkit-text-stroke-width: 0px;
+          "
+        ></span></a></td>
+        <td>
+<button type="button" class="btn btn-light " data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+  <i style="color:black;opacity: 0.7;" class="fas fa-shop"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Please Enter Return Date:</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Date input -->
+        <form action="{% url 'borrow' pk=book_detail.id%}" method="POST" validation> {% csrf_token %}
+    <div class="form-outline mb-4">
+      <input type="date" id="form5Example2 date" class="form-control" name="return_date" required/>
+      <label class="form-label" for="form5Example2">Return Date</label>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+          </td>
+      </tr>
+
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Book details{% endblock title %}
+{% block content %}
+{% for message in messages %} {% if 'success' in message.tags %} 
+<div
+  class="alert alert-success mb-0 alert-dismissible alert-absolute fade show"
+  id="alertExample"
+  role="alert"
+  data-mdb-color="secondary"
+  style="width: 20%; margin: auto; position: relative;"
+>
+  {{message}}
+  <button
+    type="button"
+    class="btn-close ms-2"
+    data-mdb-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endif %} {% endfor %}
+<h1 style="width: 20%; margin: auto">Borrowing Book list</h1>
+<hr>
+{% if book_list %}
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Book Name</th>
+        <th scope="col">Author Name</th>
+        <th scope="col">ISBN</th>
+        <th scope="col">Category</th>
+        <th scope="col">First Publication</th>
+        <th scope="col">Date Borrowed</th> 
+        <th scope="col">Due Date</th> 
+        <th scope="col">Fine</th> 
+        <th scope="col">Return Book</th> 
+      </tr>
+    </thead>
+    <tbody>
+      {% for book_detail in book_list %}
+      <tr>
+       <td><a href="{% url 'book_detail' book_detail.book.id %}">{{book_detail.book.title}}</a></td>
+        <td>{{book_detail.book.author}}</td>
+        <td>{{book_detail.book.ISBN}}</td>
+        <td>{{book_detail.book.genre}}</td>
+        <td>{{book_detail.book.publication_date}}</td>
+        <td>{{book_detail.borrow_date}} </td> 
+        <td>{{book_detail.return_date}}</td> 
+        <td>0</td> 
+        <td>
+          <!-- Button trigger modal -->
+<button type="button" class="btn btn-link " data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+  Return
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <!-- Date input -->
+        <form action="{% url 'borrow_return' book_detail.id %}" method="POST"> {% csrf_token %}
+    <div class="form-outline mb-4 " style="color:green;">
+     <h2> Are You Confirm "{{book_detail.book.title}}" Book is Return! </h2>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+          </td>
+          {% endfor %}
+      </tr>
+
+    </tbody>
+  </table>
+{% else %}
+<h3 style="width: 20%; margin: auto">Not Found Book</h3>
+{% endif %}
+{% endblock %}

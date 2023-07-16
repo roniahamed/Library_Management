@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% load static %} {% block content%} {% for message in messages %} {% if 'success' in message.tags %} 
+<div
+  class="alert alert-success mb-0 alert-dismissible alert-absolute fade show"
+  id="alertExample"
+  role="alert"
+  data-mdb-color="secondary"
+  style="width: 20%; margin: auto; position: relative;"
+>
+  {{message}}
+  <button
+    type="button"
+    class="btn-close ms-2"
+    data-mdb-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endif %} {% endfor %}
+{% for message in messages %} {% if 'warning' in message.tags %}
+
+        <div
+          class="alert alert-danger mb-0 alert-dismissible alert-absolute fade show"
+          id="alertExample"
+          role="alert"
+          data-mdb-color="secondary"
+          style="width: 20%; margin: auto; position: relative;"
+        >
+          {{message}}
+          <button
+            type="button"
+            class="btn-close ms-2"
+            data-mdb-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endif %} {% endfor %}
+        <br />
+<div style="width: 80%; margin: auto">
+  <h1 style="width: 20%; margin: auto">List of Books</h1>
+  <hr>
+  {% if book_list %}
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Book Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in book_list %}
+      <tr>
+        <td><a href="{% url 'book_detail' item.id %}">{{item.title}}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <h1>No Books Found</h1>
+  {% endif %}
+</div>
+{% endblock %}
