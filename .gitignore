@@ -1,4 +1,5 @@
-# .gitignore
+# Created by venv; see https://docs.python.org/3/library/venv.html
+#.gitignore
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
