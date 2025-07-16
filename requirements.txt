@@ -1,5 +1,6 @@
-asgiref==3.6.0
-Django==4.1.7
+asgiref==3.9.1
+Django==5.2.4
+django-jazzmin==3.0.1
 numpy==1.24.2
 Pillow==9.4.0
 pystache==0.6.0
